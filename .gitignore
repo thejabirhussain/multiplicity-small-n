@@ -1,0 +1,7 @@
+.venv/
+data/
+__pycache__/
+*.pyc
+.DS_Store
+results/multiplicity_smoke.csv
+results/meta_smoke.json

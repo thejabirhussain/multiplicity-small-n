@@ -1,0 +1,8 @@
+dataset,clinical,n,predictors,minority_frac
+pima_diabetes,True,768,8,0.349
+heart_statlog,True,270,13,0.444
+haberman_survival,True,306,3,0.265
+indian_liver,True,583,10,0.286
+parkinsons,True,195,22,0.246
+ionosphere,False,351,33,0.359
+sonar,False,208,60,0.466
