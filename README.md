@@ -19,8 +19,12 @@ largest in **28 of 30 datasets**.
 
 | Selection rule | Direction | Mean difference | Wilcoxon signed-rank | Median rho vs n |
 |---|---|---|---|---|
-| top-3 | 28/30 | +0.037 | **p = 4.6e-06** | -0.935 |
-| top-5 | 28/30 | +0.060 | **p = 1.2e-05** | -0.943 |
+| top-3 | 28/30 | +0.037 | **p = 4.7e-07** | -0.935 |
+| top-5 | 28/30 | +0.060 | **p = 5.7e-07** | -0.943 |
+
+Tests are computed on the unrounded cell means in `results/multiplicity_panel.csv`;
+an earlier version of this table reported p-values computed on rounded values
+(4.6e-06 and 1.2e-05), which were wrong in the conservative direction.
 
 Eleven datasets under top-5 have rho = -1.000: ambiguity falls at every step of
 the size grid without a single reversal.
@@ -33,13 +37,18 @@ nearly separable and there is no disagreement to measure at any size.
 ## The methodological finding, which came first
 
 The initial design used the epsilon-ball from the literature: keep every model
-within epsilon of the best validation score. That produced a null result.
+within epsilon of the best validation score. That produced a weak and
+epsilon-dependent result rather than a clean one: across the same 30 datasets
+the effect is p = 0.021 at epsilon = 0.01 and p = 0.152 at epsilon = 0.05. An
+effect that appears or disappears depending on an arbitrary tolerance is not a
+finding.
 
 The reason is a confound. The number of models admitted by an epsilon-ball
-**changes with n** (on Pima at epsilon=0.05, from 3.06 models at n=23 to 8.02 at
-n=318), and ambiguity correlates with set size at rho = +0.538, p = 2.4e-04. A
-larger set disagrees more simply because it has more members, so ambiguity
-measured this way is not comparable across sample sizes.
+**changes with n**. On Pima at epsilon = 0.05 the set grows from 3.06 models at
+n = 23 to 8.02 at n = 318, and within that dataset ambiguity tracks set size at
+Spearman rho = +0.74 (n = 600 cells); at epsilon = 0.01 the set grows from 1.69
+to 2.62 and rho = +0.90. A larger set disagrees more simply because it has more
+members, so ambiguity measured this way is not comparable across sample sizes.
 
 Holding the set size fixed with a top-k rule removes the confound, and the
 effect appears.
@@ -70,9 +79,10 @@ target, 150 to 1200 rows, 4 to 80 features, minority class at least 15%, and no
 overlap with the datasets used in my taught coursework. 227 candidates matched;
 the panel takes the first 32 in a deterministic order.
 
-Of those, `auto_price` and `autoPrice` are the same OpenML data under two names
-and `parkinsons` and `sonar` appear in the earlier seven-dataset study, so all
-four are excluded from the across-dataset test, leaving 30.
+`auto_price` and `autoPrice` are the same OpenML data under two names, so only
+`auto_price` was retained and the panel holds 32 distinct datasets.
+`parkinsons` and `sonar` appear in the earlier seven-dataset study and are
+excluded from the across-dataset test, leaving **30**.
 
 ## Running it
 
